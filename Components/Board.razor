@@ -38,14 +38,17 @@
         }
    </div>
 </div>
+<article>
+    @((MarkupString)tallyMessage.Replace(Environment.NewLine, "<br />"))
+</article>
 
 @code {
     private string[] pieces = new string[42];
     private string winnerMessage = string.Empty;
     private string errorMessage = string.Empty;
+    private string tallyMessage = string.Empty;
 
-
-    private string CurrentTurn => (winnerMessage == string.Empty) ? $"Player {State.PlayerTurn}'s ({GetPlayerColorName(State.PlayerTurn)}) Turn" : "";
+    private string CurrentTurn => (winnerMessage == string.Empty) ? $"Player {State.PlayerTurn}'s ({GetPlayerColorName(State.PlayerTurn)}) turn" : "";
     private string GetPlayerColorName(int player)
     {        
         return player == 1 ? State.Player1Color : State.Player2Color;
@@ -65,13 +68,30 @@
         {
             errorMessage = ex.Message;
         }
-        winnerMessage = State.CheckForWin() switch
+        
+        if (State.CheckForWin() == GameState.WinState.Player1_Wins)
         {
-            GameState.WinState.Player1_Wins => $"Player 1 ({GetPlayerColorName(1)}) Wins!",
-            GameState.WinState.Player2_Wins => $"Player 2 ({GetPlayerColorName(1)}) Wins!",
-            GameState.WinState.Tie => "It's a tie!",
-            _ => ""
-        };
+            State.Player1Wins++;
+            winnerMessage = $"Player 1 ({GetPlayerColorName(1)}) wins!";            
+        }
+        else if (State.CheckForWin() == GameState.WinState.Player2_Wins)
+        {
+            State.Player2Wins++;
+            winnerMessage = $"Player 2 ({GetPlayerColorName(2)}) wins!";
+        }
+        else if (State.CheckForWin() == GameState.WinState.Tie)
+        {
+            State.Ties++;
+            winnerMessage = "It's a tie!";
+        }
+        else        
+            winnerMessage = string.Empty;
+
+        if (winnerMessage != string.Empty)
+        {
+            tallyMessage = $"Player 1 ({GetPlayerColorName(1)}) wins: {State.Player1Wins}{Environment.NewLine}Player 2 ({GetPlayerColorName(2)}) wins: {State.Player2Wins}{Environment.NewLine}Ties: {State.Ties}";
+        }
+        
     }
     [Parameter]
     public Color BoardColor { get; set; } = ColorTranslator.FromHtml("yellow");
@@ -87,9 +107,10 @@
         if (State.Player1Color == string.Empty)
         {
             State.Player1Color = Player1Color.IsKnownColor ? Player1Color.Name.ToLower() : ColorTranslator.ToHtml(Player1Color);
-            State.Player2Color = Player2Color.IsKnownColor ? Player2Color.Name.ToLower() : ColorTranslator.ToHtml(Player2Color);        
+            State.Player2Color = Player2Color.IsKnownColor ? Player2Color.Name.ToLower() : ColorTranslator.ToHtml(Player2Color);                    
         }
 
+        tallyMessage = $"Player 1 ({GetPlayerColorName(1)}) wins: {State.Player1Wins}{Environment.NewLine}Player 2 ({GetPlayerColorName(2)}) wins: {State.Player2Wins}{Environment.NewLine}Ties: {State.Ties}";
         // Initialize the game state
         State.ResetBoard();
     }

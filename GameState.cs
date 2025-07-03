@@ -177,8 +177,24 @@ public class GameState
 	}
 
 	public List<int> TheBoard { get; private set; } = new List<int>(new int[42]);
+	
+	private string strPlayer1Color = string.Empty;
+    private string strPlayer2Color = string.Empty;
 
-	public void ResetBoard() {
+	public string Player1Color
+	{
+		get { return strPlayer1Color; }
+		set { strPlayer1Color = value; }
+	}
+
+	public string Player2Color
+	{
+		get { return strPlayer2Color; }
+		set { strPlayer2Color = value; }
+	}
+	
+	public void ResetBoard()
+	{
 		TheBoard = new List<int>(new int[42]);
 	}
 

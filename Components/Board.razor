@@ -44,7 +44,12 @@
     private string winnerMessage = string.Empty;
     private string errorMessage = string.Empty;
 
-    private string CurrentTurn => (winnerMessage == string.Empty) ? $"Player {State.PlayerTurn}'s Turn" : "";
+
+    private string CurrentTurn => (winnerMessage == string.Empty) ? $"Player {State.PlayerTurn}'s ({GetPlayerColorName(State.PlayerTurn)}) Turn" : "";
+    private string GetPlayerColorName(int player)
+    {        
+        return player == 1 ? State.Player1Color : State.Player2Color;
+    }
     private string ResetStyle => (winnerMessage == string.Empty) ? "display: none;" : "";
     private void PlayPiece(byte col)
     {
@@ -62,8 +67,8 @@
         }
         winnerMessage = State.CheckForWin() switch
         {
-            GameState.WinState.Player1_Wins => "Player 1 Wins!",
-            GameState.WinState.Player2_Wins => "Player 2 Wins!",
+            GameState.WinState.Player1_Wins => $"Player 1 ({GetPlayerColorName(1)}) Wins!",
+            GameState.WinState.Player2_Wins => $"Player 2 ({GetPlayerColorName(1)}) Wins!",
             GameState.WinState.Tie => "It's a tie!",
             _ => ""
         };
@@ -76,8 +81,16 @@
 
     [Parameter]
     public Color Player2Color { get; set; } = ColorTranslator.FromHtml("blue");
+    
     protected override void OnInitialized()
     {
+        if (State.Player1Color == string.Empty)
+        {
+            State.Player1Color = Player1Color.IsKnownColor ? Player1Color.Name.ToLower() : ColorTranslator.ToHtml(Player1Color);
+            State.Player2Color = Player2Color.IsKnownColor ? Player2Color.Name.ToLower() : ColorTranslator.ToHtml(Player2Color);        
+        }
+
+        // Initialize the game state
         State.ResetBoard();
     }
     void ResetGame()

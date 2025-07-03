@@ -30,23 +30,28 @@ public class GameState
 	public int CurrentTurn { get { return TheBoard.Count(x => x != 0); } }
 
 	public static readonly List<int[]> WinningPlaces = new();
-
-	public static void CalculateWinningPlaces() 
+	
+	/// <summary>
+	/// Populates the WinningPlaces list with all possible winning combinations on the Connect Four board.
+	/// This includes every set of four consecutive positions horizontally, vertically, and diagonally (both directions).
+	/// These precomputed scenarios are used to efficiently check for a win during gameplay.
+	public static void CalculateWinningPlaces()
 	{
 
 		// Horizontal rows
-		for (byte row=0;row<6;row++){
+		for (byte row = 0; row < 6; row++)
+		{
 
 			byte rowCol1 = (byte)(row * 7);
 			byte rowColEnd = (byte)((row + 1) * 7 - 1);
 			byte checkCol = rowCol1;
-			while (checkCol <= rowColEnd-3)
+			while (checkCol <= rowColEnd - 3)
 			{
-				WinningPlaces.Add(new int[] { 
-					checkCol, 
-					(byte)(checkCol + 1), 
-					(byte)(checkCol + 2), 
-					(byte)(checkCol + 3) 
+				WinningPlaces.Add(new int[] {
+					checkCol,
+					(byte)(checkCol + 1),
+					(byte)(checkCol + 2),
+					(byte)(checkCol + 3)
 					});
 				checkCol++;
 			}
@@ -58,9 +63,9 @@ public class GameState
 		{
 
 			byte colRow1 = col;
-			byte colRowEnd = (byte)(35+col);
+			byte colRowEnd = (byte)(35 + col);
 			byte checkRow = colRow1;
-			while (checkRow <= 14+col)
+			while (checkRow <= 14 + col)
 			{
 				WinningPlaces.Add(new int[] {
 					checkRow,
@@ -68,7 +73,7 @@ public class GameState
 					(byte)(checkRow + 14),
 					(byte)(checkRow + 21)
 					});
-				checkRow+=7;
+				checkRow += 7;
 			}
 
 		}

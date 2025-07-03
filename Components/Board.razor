@@ -54,6 +54,12 @@
         return player == 1 ? State.Player1Color : State.Player2Color;
     }
     private string ResetStyle => (winnerMessage == string.Empty) ? "display: none;" : "";
+
+    /// <summary>
+    /// Handles the logic for playing a piece in the selected column.
+    /// Updates the game state, manages the pieces array for animation,
+    /// checks for win or tie conditions, updates the winner and tally messages,
+    /// and handles any errors that occur during the move.
     private void PlayPiece(byte col)
     {
         errorMessage = string.Empty;
@@ -111,6 +117,7 @@
         }
 
         tallyMessage = $"Player 1 ({GetPlayerColorName(1)}) wins: {State.Player1Wins}{Environment.NewLine}Player 2 ({GetPlayerColorName(2)}) wins: {State.Player2Wins}{Environment.NewLine}Ties: {State.Ties}";
+        
         // Initialize the game state
         State.ResetBoard();
     }

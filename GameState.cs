@@ -192,6 +192,25 @@ public class GameState
 		get { return strPlayer2Color; }
 		set { strPlayer2Color = value; }
 	}
+
+	private int intPlayer1Wins = 0;
+	private int intPlayer2Wins = 0;
+	private int intTies = 0;
+	public int Player1Wins
+	{
+		get { return intPlayer1Wins; }
+		set { intPlayer1Wins = value; }
+	}
+	public int Player2Wins
+	{
+		get { return intPlayer2Wins; }
+		set { intPlayer2Wins = value; }
+	}
+	public int Ties
+	{
+		get { return intTies; }
+		set { intTies = value; }
+	}
 	
 	public void ResetBoard()
 	{

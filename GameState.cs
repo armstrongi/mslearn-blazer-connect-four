@@ -2,7 +2,7 @@ namespace ConnectFour;
 
 public class GameState
 {
-
+	public const int BoardCellCount = 42;
 	static GameState()
 	{
 		CalculateWinningPlaces();
@@ -159,7 +159,7 @@ public class GameState
 
 		}
 
-		if (TheBoard.Count(x => x != 0) == 42) return WinState.Tie;
+		if (TheBoard.Count(x => x != 0) == BoardCellCount) return WinState.Tie;
 
 		return WinState.No_Winner;
 
@@ -181,7 +181,7 @@ public class GameState
 
 		// Drop the piece in
 		var landingSpot = column;
-		for (var i=column;i<42;i+=7)
+		for (var i=column;i<BoardCellCount;i+=7)
 		{
 			if (TheBoard[landingSpot + 7] != 0) break;
 			landingSpot = i;
@@ -193,7 +193,7 @@ public class GameState
 
 	}
 
-	public List<int> TheBoard { get; private set; } = new List<int>(new int[42]);
+	public List<int> TheBoard { get; private set; } = new List<int>(new int[BoardCellCount]);
 	
 	private string _player1Color = string.Empty;
 	private string _player2Color = string.Empty;
@@ -249,7 +249,7 @@ public class GameState
 	
 	public void ResetBoard()
 	{
-		TheBoard = new List<int>(new int[42]);
+		TheBoard = new List<int>(new int[BoardCellCount]);
 	}
 
 	private byte ConvertLandingSpotToRow(int landingSpot)

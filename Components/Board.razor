@@ -26,13 +26,13 @@
 </nav>
 <div>    
    <div class="board">
-        @for (var i = 0; i < 42; i++)
+        @for (var i = 0; i < GameState.BoardCellCount; i++)
         {
             <span class="container">
                 <span></span>
             </span>
         }
-        @for (var i = 0; i < 42; i++)
+        @for (var i = 0; i < GameState.BoardCellCount; i++)
         {
         <span class="@pieces[i]"></span>
         }
@@ -43,7 +43,7 @@
 </article>
 
 @code {
-    private string[] pieces = new string[42];
+    private string[] pieces = new string[GameState.BoardCellCount];
     private string winnerMessage = string.Empty;
     private string errorMessage = string.Empty;
     private string tallyMessage = string.Empty;
@@ -130,6 +130,6 @@
         State.AlternateStartingPlayer();
         winnerMessage = string.Empty;
         errorMessage = string.Empty;
-        pieces = new string[42];        
+        pieces = new string[GameState.BoardCellCount];        
     }
 }

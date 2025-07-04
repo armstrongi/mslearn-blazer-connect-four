@@ -98,7 +98,7 @@
 
         if (!string.IsNullOrEmpty(winnerMessage))
         {
-            tallyMessage = $"Player {GetPlayerColorName(1)} wins: {State.Player1Wins}{Environment.NewLine}Player {GetPlayerColorName(2)} wins: {State.Player2Wins}{Environment.NewLine}Ties: {State.Ties}";
+            tallyMessage = $"Player {GetPlayerColorName(1)} wins: {State.Player1Wins}{Environment.NewLine}Player {GetPlayerColorName(2)} wins: {State.Player2Wins}{Environment.NewLine}Ties: {State.Ties}";            
         }
         
     }
@@ -127,8 +127,9 @@
     void ResetGame()
     {
         State.ResetBoard();
+        State.AlternateStartingPlayer();
         winnerMessage = string.Empty;
         errorMessage = string.Empty;
-        pieces = new string[42];
+        pieces = new string[42];        
     }
 }

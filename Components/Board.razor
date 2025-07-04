@@ -18,7 +18,7 @@
     <span class="alert-info">@CurrentTurn</span>
 </article>
 <nav>
-    @for (byte i = 0; i < 7; i++)
+    @for (byte i = 0; i < GameState.BoardColCount; i++)
     {
         var col = i;
         <span title="Click to play a piece" @onclick="() => PlayPiece(col)">🔽</span>

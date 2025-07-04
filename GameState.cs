@@ -3,6 +3,8 @@ namespace ConnectFour;
 public class GameState
 {
 	public const int BoardCellCount = 42;
+	public const int BoardRowCount = 6;
+	public const int BoardColCount = 7;
 	static GameState()
 	{
 		CalculateWinningPlaces();
@@ -51,11 +53,11 @@ public class GameState
 	{
 
 		// Horizontal rows
-		for (byte row = 0; row < 6; row++)
+		for (byte row = 0; row < BoardRowCount; row++)
 		{
 
-			byte rowCol1 = (byte)(row * 7);
-			byte rowColEnd = (byte)((row + 1) * 7 - 1);
+			byte rowCol1 = (byte)(row * BoardColCount);
+			byte rowColEnd = (byte)((row + 1) * BoardColCount - 1);
 			byte checkCol = rowCol1;
 			while (checkCol <= rowColEnd - 3)
 			{
@@ -71,7 +73,7 @@ public class GameState
 		}
 
 		// Vertical Columns
-		for (byte col = 0; col < 7; col++)
+		for (byte col = 0; col < BoardColCount; col++)
 		{
 
 			byte colRow1 = col;
@@ -81,11 +83,11 @@ public class GameState
 			{
 				WinningPlaces.Add(new int[] {
 					checkRow,
-					(byte)(checkRow + 7),
-					(byte)(checkRow + 14),
-					(byte)(checkRow + 21)
+					(byte)(checkRow + BoardColCount),
+					(byte)(checkRow + BoardColCount * 2),
+					(byte)(checkRow + BoardColCount * 3)
 					});
-				checkRow += 7;
+				checkRow += BoardColCount;
 			}
 
 		}
@@ -102,11 +104,11 @@ public class GameState
 			{
 				WinningPlaces.Add(new int[] {
 					checkPos,
-					(byte)(checkPos - 6),
-					(byte)(checkPos - 12),
-					(byte)(checkPos - 18)
+					(byte)(checkPos - BoardRowCount),
+					(byte)(checkPos - BoardRowCount * 2),
+					(byte)(checkPos - BoardRowCount * 3)
 					});
-				checkPos += 7;
+				checkPos += BoardColCount;
 			}
 
 		}
@@ -123,11 +125,11 @@ public class GameState
 			{
 				WinningPlaces.Add(new int[] {
 					checkPos,
-					(byte)(checkPos + 8),
-					(byte)(checkPos + 16),
-					(byte)(checkPos + 24)
+					(byte)(checkPos + BoardRowCount + 2),
+					(byte)(checkPos + (BoardRowCount + 2) * 2),
+					(byte)(checkPos + (BoardRowCount + 2) * 3)
 					});
-				checkPos += 7;
+				checkPos += BoardColCount;
 			}
 
 		}
@@ -181,9 +183,9 @@ public class GameState
 
 		// Drop the piece in
 		var landingSpot = column;
-		for (var i=column;i<BoardCellCount;i+=7)
+		for (var i=column;i<BoardCellCount;i+=BoardColCount)
 		{
-			if (TheBoard[landingSpot + 7] != 0) break;
+			if (TheBoard[landingSpot + BoardColCount] != 0) break;
 			landingSpot = i;
 		}
 
@@ -255,7 +257,7 @@ public class GameState
 	private byte ConvertLandingSpotToRow(int landingSpot)
 	{
 
-		return (byte)(Math.Floor(landingSpot / (decimal)7) + 1);
+		return (byte)(Math.Floor(landingSpot / (decimal)BoardColCount) + 1);
 
 	}
 

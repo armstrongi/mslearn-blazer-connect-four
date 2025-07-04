@@ -55,52 +55,45 @@ public class GameState
 		// Horizontal rows
 		for (byte row = 0; row < BoardRowCount; row++)
 		{
-
 			byte rowCol1 = (byte)(row * BoardColCount);
 			byte rowColEnd = (byte)((row + 1) * BoardColCount - 1);
-			byte checkCol = rowCol1;
-			while (checkCol <= rowColEnd - 3)
+			
+			for (byte checkCol = rowCol1; checkCol <= rowColEnd - 3; checkCol++)
 			{
 				WinningPlaces.Add(new int[] {
 					checkCol,
 					(byte)(checkCol + 1),
 					(byte)(checkCol + 2),
 					(byte)(checkCol + 3)
-					});
-				checkCol++;
+					});				
 			}
-
 		}
 
 		// Vertical Columns
 		for (byte col = 0; col < BoardColCount; col++)
 		{
-
 			byte colRow1 = col;
 			byte colRowEnd = (byte)(35 + col);
-			byte checkRow = colRow1;
-			while (checkRow <= 14 + col)
+			
+			for (byte checkRow = colRow1; checkRow <= 14 + col; checkRow += BoardColCount)
 			{
 				WinningPlaces.Add(new int[] {
 					checkRow,
 					(byte)(checkRow + BoardColCount),
 					(byte)(checkRow + BoardColCount * 2),
 					(byte)(checkRow + BoardColCount * 3)
-					});
-				checkRow += BoardColCount;
+					});				
 			}
-
 		}
 
 		// forward slash diagonal "/"
 		for (byte col = 0; col < 4; col++)
 		{
-
 			// starting column must be 0-3
 			byte colRow1 = (byte)(21 + col);
 			byte colRowEnd = (byte)(35 + col);
-			byte checkPos = colRow1;
-			while (checkPos <= colRowEnd)
+
+			for (byte checkPos = colRow1; checkPos <= colRowEnd; checkPos += BoardColCount)
 			{
 				WinningPlaces.Add(new int[] {
 					checkPos,
@@ -108,33 +101,27 @@ public class GameState
 					(byte)(checkPos - BoardRowCount * 2),
 					(byte)(checkPos - BoardRowCount * 3)
 					});
-				checkPos += BoardColCount;
-			}
 
+			}
 		}
 
 		// back slash diaganol "\"
 		for (byte col = 0; col < 4; col++)
 		{
-
 			// starting column must be 0-3
 			byte colRow1 = (byte)(0 + col);
 			byte colRowEnd = (byte)(14 + col);
-			byte checkPos = colRow1;
-			while (checkPos <= colRowEnd)
+			
+			for (byte checkPos = colRow1; checkPos <= colRowEnd; checkPos += BoardColCount)
 			{
 				WinningPlaces.Add(new int[] {
 					checkPos,
 					(byte)(checkPos + BoardRowCount + 2),
 					(byte)(checkPos + (BoardRowCount + 2) * 2),
 					(byte)(checkPos + (BoardRowCount + 2) * 3)
-					});
-				checkPos += BoardColCount;
+					});				
 			}
-
 		}
-
-
 	}
 
 	/// <summary>

@@ -51,90 +51,70 @@ public class GameState
 	/// These precomputed scenarios are used to efficiently check for a win during gameplay.
 	public static void CalculateWinningPlaces()
 	{
+		WinningPlaces.Clear();
 
 		// Horizontal rows
 		for (byte row = 0; row < BoardRowCount; row++)
 		{
-
-			byte rowCol1 = (byte)(row * BoardColCount);
-			byte rowColEnd = (byte)((row + 1) * BoardColCount - 1);
-			byte checkCol = rowCol1;
-			while (checkCol <= rowColEnd - 3)
+			byte rowStart = (byte)(row * BoardColCount);
+			byte rowEnd = (byte)((row + 1) * BoardColCount - 1);
+			for (byte col = rowStart; col <= rowEnd - 3; col++)
 			{
-				WinningPlaces.Add(new int[] {
-					checkCol,
-					(byte)(checkCol + 1),
-					(byte)(checkCol + 2),
-					(byte)(checkCol + 3)
-					});
-				checkCol++;
+				WinningPlaces.Add(new int[]
+				{
+					col,
+					(byte)(col + 1),
+					(byte)(col + 2),
+					(byte)(col + 3)
+				});
 			}
-
 		}
 
-		// Vertical Columns
+		// Vertical columns
 		for (byte col = 0; col < BoardColCount; col++)
 		{
-
-			byte colRow1 = col;
-			byte colRowEnd = (byte)(35 + col);
-			byte checkRow = colRow1;
-			while (checkRow <= 14 + col)
+			for (byte row = col; row <= (BoardRowCount - 4) * BoardColCount + col; row += BoardColCount)
 			{
-				WinningPlaces.Add(new int[] {
-					checkRow,
-					(byte)(checkRow + BoardColCount),
-					(byte)(checkRow + BoardColCount * 2),
-					(byte)(checkRow + BoardColCount * 3)
-					});
-				checkRow += BoardColCount;
+				WinningPlaces.Add(new int[]
+				{
+					row,
+					(byte)(row + BoardColCount),
+					(byte)(row + BoardColCount * 2),
+					(byte)(row + BoardColCount * 3)
+				});
 			}
-
 		}
 
-		// forward slash diagonal "/"
-		for (byte col = 0; col < 4; col++)
+		// Forward slash diagonal "/"
+		for (byte col = 0; col < BoardColCount - 3; col++)
 		{
-
-			// starting column must be 0-3
-			byte colRow1 = (byte)(21 + col);
-			byte colRowEnd = (byte)(35 + col);
-			byte checkPos = colRow1;
-			while (checkPos <= colRowEnd)
+			for (byte row = (byte)((BoardRowCount - 1) * BoardColCount + col); row >= 3 * BoardColCount + col; row -= BoardColCount)
 			{
-				WinningPlaces.Add(new int[] {
-					checkPos,
-					(byte)(checkPos - BoardRowCount),
-					(byte)(checkPos - BoardRowCount * 2),
-					(byte)(checkPos - BoardRowCount * 3)
-					});
-				checkPos += BoardColCount;
+				WinningPlaces.Add(new int[]
+				{
+					row,
+					(byte)(row - BoardColCount + 1),
+					(byte)(row - 2 * BoardColCount + 2),
+					(byte)(row - 3 * BoardColCount + 3)
+				});
 			}
-
 		}
 
-		// back slash diaganol "\"
-		for (byte col = 0; col < 4; col++)
+		// Back slash diagonal "\"
+		for (byte col = 0; col < BoardColCount - 3; col++)
 		{
-
-			// starting column must be 0-3
-			byte colRow1 = (byte)(0 + col);
-			byte colRowEnd = (byte)(14 + col);
-			byte checkPos = colRow1;
-			while (checkPos <= colRowEnd)
+			for (byte row = 0; row <= (BoardRowCount - 4) * BoardColCount; row += BoardColCount)
 			{
-				WinningPlaces.Add(new int[] {
-					checkPos,
-					(byte)(checkPos + BoardRowCount + 2),
-					(byte)(checkPos + (BoardRowCount + 2) * 2),
-					(byte)(checkPos + (BoardRowCount + 2) * 3)
-					});
-				checkPos += BoardColCount;
+				byte start = (byte)(row + col);
+				WinningPlaces.Add(new int[]
+				{
+					start,
+					(byte)(start + BoardColCount + 1),
+					(byte)(start + 2 * (BoardColCount + 1)),
+					(byte)(start + 3 * (BoardColCount + 1))
+				});
 			}
-
 		}
-
-
 	}
 
 	/// <summary>

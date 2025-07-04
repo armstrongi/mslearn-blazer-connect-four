@@ -75,25 +75,28 @@
             errorMessage = ex.Message;
         }
         
-        if (State.CheckForWin() == GameState.WinState.Player1_Wins)
-        {
-            State.Player1Wins++;
-            winnerMessage = $"Player 1 ({GetPlayerColorName(1)}) wins!";            
-        }
-        else if (State.CheckForWin() == GameState.WinState.Player2_Wins)
-        {
-            State.Player2Wins++;
-            winnerMessage = $"Player 2 ({GetPlayerColorName(2)}) wins!";
-        }
-        else if (State.CheckForWin() == GameState.WinState.Tie)
-        {
-            State.Ties++;
-            winnerMessage = "It's a tie!";
-        }
-        else        
-            winnerMessage = string.Empty;
+        var winState = State.CheckForWin();
 
-        if (winnerMessage != string.Empty)
+        switch (winState)
+        {
+            case GameState.WinState.Player1_Wins:
+                State.Player1Wins++;
+                winnerMessage = $"Player 1 ({GetPlayerColorName(1)}) wins!";
+                break;
+            case GameState.WinState.Player2_Wins:
+                State.Player2Wins++;
+                winnerMessage = $"Player 2 ({GetPlayerColorName(2)}) wins!";
+                break;
+            case GameState.WinState.Tie:
+                State.Ties++;
+                winnerMessage = "It's a tie!";
+                break;
+            default:
+                winnerMessage = string.Empty;
+                break;
+        }
+
+        if (!string.IsNullOrEmpty(winnerMessage))
         {
             tallyMessage = $"Player 1 ({GetPlayerColorName(1)}) wins: {State.Player1Wins}{Environment.NewLine}Player 2 ({GetPlayerColorName(2)}) wins: {State.Player2Wins}{Environment.NewLine}Ties: {State.Ties}";
         }

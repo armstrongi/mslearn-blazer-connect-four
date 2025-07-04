@@ -183,38 +183,56 @@ public class GameState
 
 	public List<int> TheBoard { get; private set; } = new List<int>(new int[42]);
 	
-	private string strPlayer1Color = string.Empty;
-    private string strPlayer2Color = string.Empty;
+	private string _player1Color = string.Empty;
+	private string _player2Color = string.Empty;
 
+	/// <summary>
+	/// Gets or sets the color for Player 1 as a CSS/HTML color string.
+	/// </summary>
 	public string Player1Color
 	{
-		get { return strPlayer1Color; }
-		set { strPlayer1Color = value; }
+		get => _player1Color;
+		set => _player1Color = value;
 	}
 
+	/// <summary>
+	/// Gets or sets the color for Player 2 as a CSS/HTML color string.
+	/// </summary>
 	public string Player2Color
 	{
-		get { return strPlayer2Color; }
-		set { strPlayer2Color = value; }
+		get => _player2Color;
+		set => _player2Color = value;
 	}
 
-	private int intPlayer1Wins = 0;
-	private int intPlayer2Wins = 0;
-	private int intTies = 0;
+	private int _player1Wins = 0;
+	private int _player2Wins = 0;
+	private int _ties = 0;
+
+	/// <summary>
+	/// Gets or sets the number of games won by Player 1.
+	/// </summary>
 	public int Player1Wins
 	{
-		get { return intPlayer1Wins; }
-		set { intPlayer1Wins = value; }
+		get => _player1Wins;
+		set => _player1Wins = value;
 	}
+
+	/// <summary>
+	/// Gets or sets the number of games won by Player 2.
+	/// </summary>
 	public int Player2Wins
 	{
-		get { return intPlayer2Wins; }
-		set { intPlayer2Wins = value; }
+		get => _player2Wins;
+		set => _player2Wins = value;
 	}
+
+	/// <summary>
+	/// Gets or sets the number of tied games.
+	/// </summary>
 	public int Ties
 	{
-		get { return intTies; }
-		set { intTies = value; }
+		get => _ties;
+		set => _ties = value;
 	}
 	
 	public void ResetBoard()

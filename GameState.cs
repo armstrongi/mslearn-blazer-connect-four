@@ -20,7 +20,17 @@ public class GameState
 		Player2_Wins = 2,
 		Tie = 3
 	}
-
+	private int[] _winningPieces = [];
+	public int[] WinningPieces
+	{
+		get => _winningPieces;
+		set
+		{
+			if (value == null || value.Length != 4)
+				throw new ArgumentException("Winning pieces must be an array of 4 integers.");
+			_winningPieces = value;
+		}
+	}
 	private int _startingPlayer = 1; // 1 or 2
 
 	public int StartingPlayer
@@ -144,7 +154,11 @@ public class GameState
 				TheBoard[scenario[1]] ==
 				TheBoard[scenario[2]] &&
 				TheBoard[scenario[2]] ==
-				TheBoard[scenario[3]]) return (WinState)TheBoard[scenario[0]];
+				TheBoard[scenario[3]])
+			{
+				_winningPieces = scenario;
+				return (WinState)TheBoard[scenario[0]];
+			}
 
 		}
 

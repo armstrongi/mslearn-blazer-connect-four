@@ -33,8 +33,8 @@
             </span>
         }
         @for (var i = 0; i < GameState.BoardCellCount; i++)
-        {
-        <span class="@pieces[i]"></span>
+        {            
+            <span class="@pieces[i]"></span>
         }
    </div>
 </div>
@@ -54,6 +54,39 @@
         return player == 1 ? State.Player1Color : State.Player2Color;
     }
     private string ResetStyle => (winnerMessage == string.Empty) ? "display: none;" : "";
+    
+    /// <summary>
+    /// Returns a string representing the column and drop row for a given board position.
+    /// For example: 0 -> "col0 drop1", 6 -> "col6 drop1", 7 -> "col0 drop2", ..., 41 -> "col6 drop6"
+    /// </summary>
+    private string GetColDropString(int boardIndex)
+    {
+        int col = boardIndex % GameState.BoardColCount;
+        int row = boardIndex / GameState.BoardColCount + 1; // drop rows are 1-based
+        return $"col{col} drop{row}";
+    }
+
+    /// <summary>
+    /// Adds the "winner-piece" class to each element in the pieces array that matches the column and drop row
+    /// of the winning pieces.
+    /// </summary>
+    private void MarkWinningPieces()
+    {
+        foreach (var index in State.WinningPieces)
+        {
+            // Get the column and drop row string for this board index
+            var colDrop = GetColDropString(index);
+    
+            // Find the matching element in pieces[] and add " flash-piece" if found
+            for (int i = 0; i < pieces.Length; i++)
+            {
+                if (pieces[i] != null && pieces[i].Contains(colDrop) && !pieces[i].Contains("winner-piece"))
+                {
+                    pieces[i] += " winner-piece";
+                }
+            }
+        }
+    }
 
     /// <summary>
     /// Handles the logic for playing a piece in the selected column.
@@ -82,10 +115,12 @@
             case GameState.WinState.Player1_Wins:
                 State.Player1Wins++;
                 winnerMessage = $"Player {GetPlayerColorName(1)} wins!";
+                MarkWinningPieces();
                 break;
             case GameState.WinState.Player2_Wins:
                 State.Player2Wins++;
                 winnerMessage = $"Player {GetPlayerColorName(2)} wins!";
+                MarkWinningPieces();
                 break;
             case GameState.WinState.Tie:
                 State.Ties++;

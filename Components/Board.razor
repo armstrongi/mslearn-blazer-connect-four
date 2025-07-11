@@ -67,7 +67,7 @@
     }
 
     /// <summary>
-    /// Adds the "winner-piece" class to each element in the pieces array that matches the column and drop row
+    /// Adds the "winning-piece" class to each element in the pieces array that matches the column and drop row
     /// of the winning pieces.
     /// </summary>
     private void MarkWinningPieces()
@@ -80,9 +80,10 @@
             // Find the matching element in pieces[] and add " flash-piece" if found
             for (int i = 0; i < pieces.Length; i++)
             {
-                if (pieces[i] != null && pieces[i].Contains(colDrop) && !pieces[i].Contains("winner-piece"))
+                if (pieces[i] != null && pieces[i].Contains(colDrop) && !pieces[i].Contains("winning-piece"))
                 {
-                    pieces[i] += " winner-piece";
+                    pieces[i] += " winning-piece";
+                    break; // No need to check other pieces once we found a match
                 }
             }
         }

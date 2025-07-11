@@ -249,10 +249,11 @@ public class GameState
 		get => _ties;
 		set => _ties = value;
 	}
-	
+
 	public void ResetBoard()
 	{
 		TheBoard = new List<int>(new int[BoardCellCount]);
+		_winningPieces = [];
 	}
 
 	private byte ConvertLandingSpotToRow(int landingSpot)
